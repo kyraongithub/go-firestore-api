@@ -13,9 +13,9 @@ var FirestoreClient *firestore.Client
 
 func InitFirestore() {
 	ctx := context.Background()
-	projectID := os.Getenv("FIRESTORE_PROJECT_ID")
+	projectID := os.Getenv("PROJECT_ID")
 
-	opt := option.WithCredentialsFile("config/todo-config.json")
+	opt := option.WithAPIKey(os.Getenv("PRIVATE_KEY"))
 	var err error
 	FirestoreClient, err = firestore.NewClient(ctx, projectID, opt)
 	if err != nil {
