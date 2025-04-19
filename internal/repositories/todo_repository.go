@@ -71,6 +71,7 @@ func (t *TodoRepository) AddTodo(todo models.Todo) (*models.Todo, error) {
 	}
 	ref, _, err := t.Collection.Add(ctx, newTodo)
 	if err != nil {
+		log.Println(err)
 		return nil, errors.New("failed to add todo")
 	}
 
