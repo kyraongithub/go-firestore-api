@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
 	"todo-app/internal/controllers"
 	config "todo-app/internal/database"
 	"todo-app/internal/repositories"
@@ -16,6 +18,11 @@ func main() {
 	router := gin.Default()
 	err := godotenv.Load()
 	config.InitFirestore()
+	port := os.Getenv("PROJECT_PORT")
+	if port == "" {
+		port = "9090"
+	}
+	log.Println(port)
 
 	if err != nil {
 		log.Fatal("Error loading .env file")
@@ -26,6 +33,6 @@ func main() {
 	todoController := controllers.NewTodoController(todoService)
 	routes.RegisterTodoRoutes(router, todoController)
 
-	log.Println("Server running on http://localhost:9090")
-	router.Run("localhost:9090")
+	log.Printf("Server running on http://localhost:%s", port)
+	router.Run(fmt.Sprintf(":%s", port))
 }
